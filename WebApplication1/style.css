@@ -1,0 +1,55 @@
+﻿body {background-color: #c5ffa0;}
+a {color:#000060; font-weight: bold;}
+a:hover {color:#ff0000; font-weight: bold; text-decoration:none;}
+h1 {color: #fff; font-size:18px;	text-align: center;}
+h2 {color: #fff; font-size:20px;text-align: center;}
+p {color: #600000; font-size:14px;}
+.glav{display: inline-block;vertical-align: middle;text-align: left;background-color:green;width:400px;height:250px; position: relative;}
+a.join  {
+  text-decoration: none;
+  user-select: none; /* убирать выделение текста */
+  background: rgb(212,75,56); /* фон кнопки */
+  outline: none; /* убирать контур в Mozilla */
+  height: 40px;
+  width:110px;
+  position: absolute;
+  left: 50px;
+  top: 190px;
+} 
+a.join:hover { background: rgb(232,95,76); } /* при наведении курсора мышки */
+a.join:active { background: rgb(152,15,0); } /* при нажатии */
+
+a.reg  {
+  text-decoration: none;
+  user-select: none; /* убирать выделение текста */
+  background: rgb(212,75,56); /* фон кнопки */
+  outline: none; /* убирать контур в Mozilla */
+  height: 40px;
+  width:110px;
+  position: absolute;
+  left: 241px;
+  top: 189px;
+} 
+a.reg:hover { background: rgb(232,95,76); } /* при наведении курсора мышки */
+a.reg:active { background: rgb(152,15,0); } /* при нажатии */
+
+.popup--centered_overlay {
+    text-align: center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  .popup--centered_overlay::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  .popup--centered {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    text-align: left;
+  }
