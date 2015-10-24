@@ -39,10 +39,10 @@
                     <br />
                     <br />
                     <a class="join">                    
-                    <asp:Button ID="bt_vhod" runat="server" Text="Войти" />
+                    <asp:Button ID="bt_vhod" runat="server" Text="Войти" Height="37px" OnClick="bt_vhod_Click" Width="109px" />
                     </a>
                     <a class="reg">
-                    <asp:Button ID="bt_otm" runat="server" Text="Регистрация" />
+                    <asp:Button ID="bt_otm" runat="server" Text="Регистрация" Height="37px" Width="108px" />
                     </a>
 				</div>
 			</div>

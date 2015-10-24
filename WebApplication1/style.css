@@ -13,8 +13,8 @@ a.join  {
   height: 40px;
   width:110px;
   position: absolute;
-  left: 50px;
-  top: 190px;
+  left: 53px;
+  top: 193px;
 } 
 a.join:hover { background: rgb(232,95,76); } /* при наведении курсора мышки */
 a.join:active { background: rgb(152,15,0); } /* при нажатии */
