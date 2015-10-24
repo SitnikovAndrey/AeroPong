@@ -65,14 +65,54 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Creategame.aspx" />
     <Content Include="example.js" />
+    <Content Include="Joingame.aspx" />
+    <Content Include="Rating.aspx" />
+    <Content Include="registration.aspx" />
     <Content Include="style.css" />
+    <Content Include="UserMenu.aspx" />
     <Content Include="Web.config" />
     <Content Include="Vxod.aspx" />
-    <Content Include="WebForm2.aspx" />
+    <Content Include="Game.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Creategame.aspx.cs">
+      <DependentUpon>Creategame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Creategame.aspx.designer.cs">
+      <DependentUpon>Creategame.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Joingame.aspx.cs">
+      <DependentUpon>Joingame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Joingame.aspx.designer.cs">
+      <DependentUpon>Joingame.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rating.aspx.cs">
+      <DependentUpon>Rating.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Rating.aspx.designer.cs">
+      <DependentUpon>Rating.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="registration.aspx.cs">
+      <DependentUpon>registration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="registration.aspx.designer.cs">
+      <DependentUpon>registration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserMenu.aspx.cs">
+      <DependentUpon>UserMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserMenu.aspx.designer.cs">
+      <DependentUpon>UserMenu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Vxod.aspx.cs">
       <DependentUpon>Vxod.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -80,12 +120,12 @@
     <Compile Include="Vxod.aspx.designer.cs">
       <DependentUpon>Vxod.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm2.aspx.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
+    <Compile Include="Game.aspx.cs">
+      <DependentUpon>Game.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm2.aspx.designer.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
+    <Compile Include="Game.aspx.designer.cs">
+      <DependentUpon>Game.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <PropertyGroup>
