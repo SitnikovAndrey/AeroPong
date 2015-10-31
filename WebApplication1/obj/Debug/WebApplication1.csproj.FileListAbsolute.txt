@@ -4,3 +4,9 @@ c:\users\андрей\documents\visual studio 2013\Projects\WebApplication1\WebA
 c:\users\андрей\documents\visual studio 2013\Projects\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
 c:\users\андрей\documents\visual studio 2013\Projects\WebApplication1\WebApplication1\obj\Debug\WebApplication1.dll
 c:\users\андрей\documents\visual studio 2013\Projects\WebApplication1\WebApplication1\obj\Debug\WebApplication1.pdb
+C:\oprisprograma\AeroPong\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
+C:\oprisprograma\AeroPong\WebApplication1\obj\Debug\WebApplication1.dll
+C:\oprisprograma\AeroPong\WebApplication1\obj\Debug\WebApplication1.pdb
+C:\oprisprograma\AeroPong\WebApplication1\bin\WebApplication1.dll.config
+C:\oprisprograma\AeroPong\WebApplication1\bin\WebApplication1.dll
+C:\oprisprograma\AeroPong\WebApplication1\bin\WebApplication1.pdb

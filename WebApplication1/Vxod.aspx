@@ -13,17 +13,39 @@
 		<center>
 			<div class="popup--centered_overlay">
 				<div class="glav">
-				<h2>Добро пожаловать в Aero-Pong!</h2>                     
-                    <div style="height: 145px">
-                        <h2>Ник</h2>
-                        <center><input type="text" size="30" id="tb_nik"></center>
-                        <h2>Пароль</h2>
-                        <center><input type="text" size="30" id="tb_password"> </center>                   
-				    </div>
-                    <a href="UserMenu.aspx" class="vhod" id="bt_vhod">Вход</a>  
-                    <a href="registration.aspx" class="reg" id="bt_reg">Регистрация</a>            
+				<h2>Добро пожаловать в Aero-Pong!</h2>
+                    
+                    <br />
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <asp:Label ID="Label3" runat="server" Text="Ник"></asp:Label>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <asp:TextBox ID="TextBox2" runat="server" style="margin-left: 0px" Width="151px"></asp:TextBox>                                            
+                    <br />
+                    <br />
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <asp:Label ID="Label2" runat="server" Text="Пароль"></asp:Label>
+               
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+                    <asp:TextBox ID="TextBox1" runat="server" Width="150px"></asp:TextBox>
+				    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <a class="join">                    
+                    <asp:Button ID="bt_vhod" runat="server" Text="Войти" Height="37px" OnClick="bt_vhod_Click" Width="109px" />
+                    </a>
+                    <a class="reg">
+                    <asp:Button ID="bt_otm" runat="server" Text="Регистрация" Height="37px" Width="108px" />
+                    </a>
+				</div>
 			</div>
-          </div>
 		</center>
         </form>
 </body>
