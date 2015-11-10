@@ -1,0 +1,17 @@
+E:\work\11\Pong\bin\Pong.dll.config
+E:\work\11\Pong\bin\Pong.dll
+E:\work\11\Pong\bin\Pong.pdb
+E:\work\11\Pong\bin\Microsoft.Web.Optimization.dll
+E:\work\11\Pong\bin\Newtonsoft.Json.dll
+E:\work\11\Pong\bin\System.Web.Helpers.dll
+E:\work\11\Pong\bin\System.Web.Mvc.dll
+E:\work\11\Pong\bin\System.Web.Razor.dll
+E:\work\11\Pong\bin\System.Web.WebPages.Deployment.dll
+E:\work\11\Pong\bin\System.Web.WebPages.dll
+E:\work\11\Pong\bin\System.Web.WebPages.Razor.dll
+E:\work\11\Pong\bin\Newtonsoft.Json.pdb
+E:\work\11\Pong\bin\Newtonsoft.Json.xml
+E:\work\11\Pong\obj\Debug\Pong.csprojResolveAssemblyReference.cache
+E:\work\11\Pong\obj\Debug\Pong.dll
+E:\work\11\Pong\obj\Debug\Pong.pdb
+E:\work\11\Pong\bin\Microsoft.Web.Infrastructure.dll
