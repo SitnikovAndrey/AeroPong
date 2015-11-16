@@ -7,6 +7,9 @@ using System.Web;
 
 namespace Pong.PongHandler
 {
+    /// <summary>
+    /// Состояния игры
+    /// </summary>
     public enum GameState
     {
         NotInitiated,
@@ -15,7 +18,7 @@ namespace Pong.PongHandler
     }
     
     /// <summary>
-    /// Represents pong game between two players
+    /// Игра понг
     /// </summary>
     public class PongGame
     {
@@ -30,7 +33,7 @@ namespace Pong.PongHandler
         public const int PlayerReach = PlayerToEdgeDistance + PlayerWidth;
         public const int BallRadius = 3;
         public const double BallStartingSpeedPixPerSecond = 40;
-        public const double BallSpeedIncrease = 5;
+        public const double BallSpeedIncrease = 15;
         
         private object _syncRoot = new object();
         private PongPlayer[] _players = new PongPlayer[2];
@@ -40,14 +43,14 @@ namespace Pong.PongHandler
         private int[] _score = new int[2];
 
         /// <summary>
-        /// Token used to cances ball moving task
+        /// Служит для отмены движения мяча
         /// </summary>
         private CancellationTokenSource _ballCancellationTokenSource;
         
         public GameState State { get; private set; }
 
         /// <summary>
-        /// Called when game is over
+        /// Игра закончена
         /// </summary>
         public event Action<PongGame> GameOver;
 
@@ -69,9 +72,11 @@ namespace Pong.PongHandler
         }
 
         /// <summary>
-        /// Joins new player to this game
+        /// Добавляет второго игрока в игру
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="player">
+        /// Игрок
+        /// </param>
         public void JoinPlayer(PongPlayer player)
         {
             lock (_syncRoot)
@@ -91,16 +96,19 @@ namespace Pong.PongHandler
                 else
                 {
                     _players[RightPlayer] = player;
-                    // we have two players, so start the game
+                    // начало игры
                     State = GameState.InProgress; 
                     StartBall();
                 }
             }
         }
 
+        /// <summary>
+        /// Старт мяча
+        /// </summary>
         private void StartBall()
         {
-            // this delegete is responsible for ball moving, bouncing and counting score
+            //отвечает за движение мяча, отбивание от стенок и подсчет очков
             Action<CancellationToken> ballMover = (cancellationToken) =>
                 {
                     var lastTime = DateTime.Now;
@@ -108,47 +116,53 @@ namespace Pong.PongHandler
                     while(true)
                     {
                         var thisTime = DateTime.Now;
-                        // how many seconds elapsed since last pass
+                        // сколько секунд прошло
                         var secondsElapsed = (thisTime - lastTime).TotalMilliseconds / 1000.0; 
 
                         MoveBall(secondsElapsed);
                         lastTime = thisTime;
 
-                        Thread.Sleep(50);
+                        Thread.Sleep(10);
 
-                        // finish task if cancel requested
+                        // завершить задачу, если пришла отмена
                         if (cancellationToken.IsCancellationRequested)
                             break;
                     }
                 };
 
-            // prepare cancellation token and run the task
+            // подготовить отмену и запуск новой задачи
             _ballCancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(() => ballMover(_ballCancellationTokenSource.Token), _ballCancellationTokenSource.Token, 
                 TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
+        /// <summary>
+        /// Движение мяча
+        /// </summary>
+        /// <param name="secondsElapsed">
+        /// Сколько секунд прошло
+        /// </param>
         private void MoveBall(double secondsElapsed)
         {
             lock (_syncRoot)
             {
-                // calculate new position
+                // вычисление новой позиции
                 _ballPosition += _ballDirection * (_ballSpeed * secondsElapsed);
 
-                // check for collisions
-                // up
+                // проверка столкновений со стенками
+                // верхняя граница
                 if(_ballPosition.Y < BallRadius)
                 {
                     _ballPosition += new Vector(0, -(_ballPosition.Y - BallRadius));
                     _ballDirection = _ballDirection.MirrorY();
                 }
-                // down
+                // нижняя граница
                 if (_ballPosition.Y > FieldHeight - BallRadius) 
                 {
                     _ballPosition += new Vector(0, -(_ballPosition.Y - (FieldHeight - BallRadius)));
                     _ballDirection = _ballDirection.MirrorY();
                 }
-                // left player
+                // левый игрок
                 if (_ballPosition.X < PlayerReach + BallRadius &&
                     _ballPosition.Y <= _players[LeftPlayer].YPos + (PlayerHeight / 2) && _ballPosition.Y >= _players[LeftPlayer].YPos - (PlayerHeight / 2))
                 {
@@ -157,39 +171,41 @@ namespace Pong.PongHandler
                     // speed things up to make them more interesing
                     _ballSpeed += BallSpeedIncrease;
                 }
-                // right player
+                // правый игрок
                 if (_ballPosition.X > FieldWidth - (BallRadius + PlayerReach) &&
                     _ballPosition.Y <= _players[RightPlayer].YPos + (PlayerHeight / 2) && _ballPosition.Y >= _players[RightPlayer].YPos - (PlayerHeight / 2))
                 {
                     _ballPosition += new Vector(-(_ballPosition.X - (FieldWidth - (BallRadius + PlayerReach))), 0);
                     _ballDirection = _ballDirection.MirrorX();
-                    // speed things up to make them more interesing
+                    // ускорение мяча
                     _ballSpeed += BallSpeedIncrease;
                 }
 
-                // check for scores
+                // проверка счета
                 if (_ballPosition.X < 0 || _ballPosition.X > FieldWidth)
                 {
                     _score[_ballPosition.X < 0 ? RightPlayer : LeftPlayer]++;
-                    // broadcast score message
+                    // отправить игрокам сообщение с текущим счетом
                     BroadcastMessage(new ScoreMessage { Score = _score });
 
-                    //reset ball
+                    //'перезагрузить мяч'
                     var random = new Random();
                     _ballPosition = new Vector(FieldWidth / 2, BallRadius + random.Next(FieldHeight - 2 * BallRadius));
                     _ballDirection = Vector.Directions[random.Next(Vector.Directions.Length - 1)];
                     _ballSpeed = BallStartingSpeedPixPerSecond;
                 }
 
-                // broadcast ball position message
+                // отправить игрокам сообщение с новой позицией мяча
                 BroadcastMessage(new BallPositionMessage { XPos = (int)_ballPosition.X, YPos = (int)_ballPosition.Y });
             }
         }
 
         /// <summary>
-        /// Sends a message to both players
+        /// Отправляет сообщение двум игрокам
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">
+        /// Сообщение
+        /// </param>
         private void BroadcastMessage(object message)
         {
             foreach (var player in _players)
@@ -198,29 +214,43 @@ namespace Pong.PongHandler
             }
         }
 
-
+        /// <summary>
+        /// Реагирует на движение игрока
+        /// </summary>
+        /// <param name="player">
+        /// Игрок
+        /// </param>
+        /// <param name="position">
+        /// Сообщение с новой позицией игрока
+        /// </param>
         private void OnPlayerMoved(PongPlayer player, PlayerPositionMessage position)
         {
             var otherPlayer = OtherPlayer(player);
 
             if (otherPlayer != null)
             {
-                // send new player position to the other player
+                // отправить игроку поицию другого игрока
                 otherPlayer.SendMessage(new PlayerPositionMessage { YPos = player.YPos });
             }
         }
 
+        /// <summary>
+        /// С игроком прервано соединение
+        /// </summary>
+        /// <param name="player">
+        /// Игрок
+        /// </param>
         private void OnPlayerDisconnected(PongPlayer player)
         {
             lock (_syncRoot)
             {
-                // stop the ball moving task
+                // остановить мяч
                 _ballCancellationTokenSource.Cancel();
                 var otherPlayer = OtherPlayer(player);
 
                 if (otherPlayer != null)
                 {
-                    // close connection to other player, which means game is over
+                    // закрыть соединение с другим игроком, что означает окончание игры
                     otherPlayer.Close();
                 }
                 if (GameOver != null)

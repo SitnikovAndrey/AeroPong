@@ -8,7 +8,7 @@ namespace Pong.PongHandler
     public class BaseMessage
     {
         /// <summary>
-        /// Serialize type name so that JS client knows what message it received
+        /// Сериализованный тип сообщения для JS
         /// </summary>
         public string Type
         {

@@ -6,7 +6,7 @@ using System.Web;
 namespace Pong.PongHandler
 {
     /// <summary>
-    /// Aggregates all games
+    /// Содержит все игры
     /// </summary>
     public static class PongApp
     {
@@ -20,9 +20,11 @@ namespace Pong.PongHandler
         }
         
         /// <summary>
-        /// Joins new player to existing game or creates new one 
+        /// Добавить игрока в существующую игру или создать новую игру 
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="player">
+        /// Игро
+        /// </param>
         public static void JoinPlayer(PongPlayer player)
         {
             lock (_syncRoot)

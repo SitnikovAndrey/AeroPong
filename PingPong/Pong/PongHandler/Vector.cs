@@ -6,7 +6,7 @@ using System.Web;
 namespace Pong.PongHandler
 {
     /// <summary>
-    /// Helper vector class
+    /// Вектора
     /// </summary>
     public class Vector
     {

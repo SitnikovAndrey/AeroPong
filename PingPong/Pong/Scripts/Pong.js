@@ -14,33 +14,33 @@
 
     this.players = [
     {
-        color: "red",
+        color: "cyan",
         xPos: 5 + this.playerWidth / 2,
         yPos: this.canvas.height / 2 
     },
     {
-        color: "blue",
+        color: "pink",
         xPos: this.canvas.width - 5 - this.playerWidth / 2,
         yPos: this.canvas.height / 2,
     }
     ];
 
     this.ball = {
-        color: "black",
+        color: "white",
         xPos: this.canvas.width / 2,
         yPos: this.canvas.height / 2
     };
 
-    // register on mousemove over canvas
+    // реагирование на движения компьютерной мыши
     $(canvasSelector).mousemove($.proxy(function (e) {
         if (this.myPlayer == -1)
             return;
 
-        // calulate mouse vertical position relative to canvas
-        var offset = $(this.canvas).offset();
+        // пересчет вертикальной позиции относительно поля
+        var offset = $(this.canvas).offset(); //возвращает координаты элемента
         var mouseY = e.pageY - offset.top;
 
-        // constraint movement
+        // ограничения движения, чтобы не вышло за границы поля
         if (mouseY < this.playerHeight / 2)
             mouseY = this.playerHeight / 2;
         if (mouseY > this.canvas.height - this.playerHeight / 2)
@@ -48,7 +48,7 @@
 
         this.players[this.myPlayer].yPos = mouseY;
 
-        // send message to server with new position
+        // отправить сообщение серверу с новой позицией
         this.sendMessage({ YPos: mouseY });
 
         this.draw();
@@ -57,8 +57,7 @@
     this.draw();
     this.displayScore();
 
-    // start connecting websockets
-    // Firefox 6 and 7 requires Moz prefix...
+    // запуск websocket
     if(typeof(MozWebSocket) == "function") {
         this.socket = new MozWebSocket(applicationUrl);
         this.openStateConst = MozWebSocket.OPEN;
@@ -67,63 +66,63 @@
         this.openStateConst = WebSocket.OPEN;
     }
 
-    // register to socket events
+    // регистрация событий сокета
     this.socket.onopen = $.proxy(function () {
-        this.info("You are connected...");
+        this.info("Подключение...");
     }, this);
     this.socket.onclose = $.proxy(function () {
-        this.info("Other player disconnected! Refresh page to restart game");
+        this.info("Другой игрок отключился! Обновите страницу");
     }, this);
     this.socket.onerror = $.proxy(function () {
-        this.info("You have been disconnected! Sorry for that, refresh page to restart game");
+        this.info("Вы отключены! Обновите страницу");
     }, this);
     this.socket.onmessage = $.proxy(function (msg) {
         this.processMessage(msg);
     }, this);
 }
-
+//создание объекта
 Pong.prototype = {
     initialize : function() {
         
     },
 
-    // draws players and ball
+    // перерисовка игроков и мяча
     draw : function () {
-        var ctx = this.canvas.getContext('2d');
+        var ctx = this.canvas.getContext('2d'); //Canvas 2D API
 
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);//очищает пиксели
 
         for (var i in this.players) {
             ctx.beginPath();
             var player = this.players[i];
-            ctx.rect(player.xPos - this.playerWidth / 2, player.yPos - this.playerHeight / 2, this.playerWidth, this.playerHeight);
+            ctx.rect(player.xPos - this.playerWidth / 2, player.yPos - this.playerHeight / 2, this.playerWidth, this.playerHeight);//рисует прямоугольник
             ctx.fillStyle = player.color;
             ctx.fill();
         }
 
         ctx.beginPath();
-        ctx.arc(this.ball.xPos /*- this.ballRadius*/, this.ball.yPos /*- this.ballRadius*/, this.ballRadius, 0, 2 * Math.PI);
+        ctx.arc(this.ball.xPos /*- радиус*/, this.ball.yPos /*- радиус*/, this.ballRadius, 0, 2 * Math.PI);//рисует мяч
         ctx.fillStyle = this.ball.color;
         ctx.fill();
 
     },
 
-    // displays info message for user
+    // информационное сообщение для пользователя
     info: function (text) {
         $(this.messageSelector).html(text);
     },
 
-    // dislay current score
+    // показать текущий счет
     displayScore: function () {
-        $(this.scoreSelector).html("The score is " + this.score[0] + ":" + this.score[1]);
+        $(this.scoreSelector).html("Счет " + this.score[0] + ":" + this.score[1]);
     },
 
-    // gets the other player
+    // другой игрок
     otherPlayer: function() {
         return this.players[this.myPlayer == 0 ? 1 : 0];
     },
 
-    // serializes and sends message to server
+    // сериализовать и отправить сообщение серверу
     sendMessage: function (msg) {
         if (this.socket != "undefined" && this.socket.readyState == this.openStateConst) {
             var msgText = JSON.stringify(msg);
@@ -131,7 +130,7 @@ Pong.prototype = {
         }
     },
 
-    // processes message from server basing on its type
+    // анализ полученного сообщения от сервера
     processMessage: function (msg) {
         var data = JSON.parse(msg.data);
 
@@ -139,9 +138,9 @@ Pong.prototype = {
             case "PlayerNumberMessage":
                 this.myPlayer = data.PlayerNumber;
                 if (this.myPlayer == 0) {
-                    this.info("<span style='color:red'>You are red.</span>");
+                    this.info("<span style='color:cyan'>CYAN</span>");
                 } else {
-                    this.info("<span style='color:blue'>You are blue.</span>");
+                    this.info("<span style='color:pink'>PINK</span>");
                 }
                 break;
 

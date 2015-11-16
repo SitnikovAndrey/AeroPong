@@ -6,7 +6,7 @@ using System.Web;
 namespace Pong.PongHandler
 {
     /// <summary>
-    /// Http handler accepting web socket requests
+    /// http обработчик запросов сокета
     /// </summary>
     public class PongHttpHandler : IHttpHandler
     {
@@ -19,11 +19,11 @@ namespace Pong.PongHandler
         {
             if (context.IsWebSocketRequest)
             {
-                // create a player
+                // создать нового игрока
                 var player = new PongPlayer();
                 PongApp.JoinPlayer(player);
 
-                // start receiving from socket
+                // начать получать сообщения от сокета
                 context.AcceptWebSocketRequest(player.Receiver);
             }
         }

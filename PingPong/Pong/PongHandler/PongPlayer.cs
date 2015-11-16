@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace Pong.PongHandler
 {
     /// <summary>
-    /// Represents a player and wraps his websocket operations
+    /// Свойства Игрока и методы его сокета
     /// </summary>
     public class PongPlayer
     {
@@ -23,7 +23,7 @@ namespace Pong.PongHandler
         public event Action<PongPlayer, PlayerPositionMessage> PlayerMoved;
         public event Action<PongPlayer> PlayerDisconnected;
 
-        // player vertical positon
+        // позиция игрока по вертикали
         public int YPos { get; private set; }
 
         public void SetGame(PongGame game)
@@ -34,23 +34,23 @@ namespace Pong.PongHandler
         }
 
         /// <summary>
-        /// This method is used as delegate to accept WebSocket connection
+        /// Принимает соединения сокета
         /// </summary>
         public async Task Receiver(AspNetWebSocketContext context)
         {
             _context = context;
             var socket = _context.WebSocket as AspNetWebSocket;
-            // prepare buffer for reading messages
+            // подготовить буфер для чтения сообщений
             var inputBuffer = new ArraySegment<byte>(new byte[1024]);
 
-            // send player number to player
+            // отправить номер игрока другому игроку
             SendMessage(new PlayerNumberMessage { PlayerNumber = _game.GetPlayerIndex(this) });
 
             try
             {
                 while (true)
                 {
-                    // read from socket
+                    // чтение из сокета
                     var result = await socket.ReceiveAsync(inputBuffer, CancellationToken.None);
                     if (socket.State != WebSocketState.Open)
                     {
@@ -59,12 +59,12 @@ namespace Pong.PongHandler
                         break;
                     }
 
-                    // convert bytes to text
+                    // конвертация bytes в string
                     var messageString = Encoding.UTF8.GetString(inputBuffer.Array, 0, result.Count);
-                    // only PlayerPositionMessage is expected, deserialize
+                    // десериализует толькоPlayerPositionMessage
                     var positionMessage = JsonConvert.DeserializeObject<PlayerPositionMessage>(messageString);
-
-                    // save new position and notify game
+                    
+                    //сохранить новую позицию и отправить в игру
                     YPos = positionMessage.YPos;
                     if (PlayerMoved != null)
                         PlayerMoved(this, positionMessage);
@@ -79,11 +79,14 @@ namespace Pong.PongHandler
         }
 
         /// <summary>
-        /// Sends message through web socket to player's rowser
+        /// Отправляет сообщение по сокету игрока
         /// </summary>
+        /// <param name="message">
+        /// Сообщение
+        /// </param>
         public async Task SendMessage(object message)
         {
-            // serialize and send
+            // сериализация и отправка
             var messageString = JsonConvert.SerializeObject(message);
             if (_context != null && _context.WebSocket.State == WebSocketState.Open)
             {
@@ -93,7 +96,7 @@ namespace Pong.PongHandler
         }
 
         /// <summary>
-        /// Closes player's web socket
+        /// Закрытие сокета игрока
         /// </summary>
         public void Close()
         {

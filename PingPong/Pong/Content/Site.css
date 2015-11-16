@@ -2,8 +2,8 @@ body
 {
     font-size: .85em;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+    color: #ddd;
+    background-color: #000000;
 }
 
 header,
@@ -13,8 +13,6 @@ section {
     display: block;
 }
 
-/* Styles for basic forms
------------------------------------------------------------*/
 
 fieldset 
 {
@@ -45,8 +43,6 @@ textarea
 }
 
 
-/* Styles for validation helpers
------------------------------------------------------------*/
 .field-validation-error
 {
     color: #ff0000;
